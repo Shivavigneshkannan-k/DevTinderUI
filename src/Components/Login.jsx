@@ -6,8 +6,8 @@ import { addUserData } from "../store/userSlice";
 import { SERVER_DOMAIN } from "../utils/constants.js";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("luffy@gmail.com");
-  const [password, setPassword] = useState("Luffy@123");
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.data);
@@ -29,7 +29,6 @@ const Login = () => {
         { withCredentials: true }
       );
       const { data } = user.data;
-      console.log(data);
       dispatch(
         addUserData(data)
       );

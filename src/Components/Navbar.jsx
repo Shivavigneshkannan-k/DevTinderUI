@@ -9,7 +9,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const logout = async ()=>{
     try{
-      const message = await axios.post(SERVER_DOMAIN+"/logout",{},{
+        await axios.post(SERVER_DOMAIN+"/logout",{},{
           withCredentials: true
         });
       dispatch(removeUserData());
@@ -54,7 +54,10 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <a>Settings</a>
+              <Link to="/connections">Connection</Link>
+            </li>
+            <li>
+              <Link to="/request">Request</Link>
             </li>
             <li>
               <button onClick={logout}>Logout</button>

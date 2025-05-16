@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { Axios } from "axios";
 import { DEFAULT_PHOTO, SERVER_DOMAIN } from "../../utils/constants";
 import { useState } from "react";
 import { addUserData } from "../../store/userSlice";
@@ -16,7 +16,7 @@ const EditProfile = ({ user }) => {
 
   const saveChanges = async () => {
     try {
-      const user = await axios.put(
+      const user = await axios.patch(
         SERVER_DOMAIN + "/profile/edit",
         {
           firstName,
@@ -27,11 +27,12 @@ const EditProfile = ({ user }) => {
           photoPath,
           age
         },
-        { withCredentials: true }
+        {
+          withCredentials: true
+        }
       );
-      dispatch(
-        addUserData(user.data.data)
-      );
+
+      dispatch(addUserData(user.data.data));
     } catch (err) {
       console.log(err);
     }
@@ -62,13 +63,15 @@ const EditProfile = ({ user }) => {
         <fieldset className='fieldset'>
           <legend className='fieldset-legend'>Gender</legend>
           <select
-            onChange={(e) => {setGender(e.target.value.toLowerCase()) 
-                        console.log(e.target.value.toLowerCase())}}
+            onChange={(e) => {
+              setGender(e.target.value);
+              console.log(e.target.value);
+            }}
             className='select'>
-            <option disabled={true}>Select your Gender </option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
+            <option disabled>Select your Gender </option>
+            <option value="male " selected>Male</option>
+            <option value="female">Female</option>
+            <option value="others">Other</option>
           </select>
         </fieldset>
         <label className='label'>Age</label>
