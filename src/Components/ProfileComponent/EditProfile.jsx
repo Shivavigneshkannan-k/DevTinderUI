@@ -67,18 +67,19 @@ const EditProfile = ({ user }) => {
               setGender(e.target.value);
               console.log(e.target.value);
             }}
-            className='select'>
-            <option disabled>Select your Gender </option>
-            <option value="male " selected>Male</option>
-            <option value="female">Female</option>
-            <option value="others">Other</option>
+            className='select'
+            value={gender}>
+            <option>Select your Gender </option>
+            <option value='male'>Male</option>
+            <option value='female'>Female</option>
+            <option value='others'>Other</option>
           </select>
         </fieldset>
         <label className='label'>Age</label>
         <input
           type='number'
           className='input'
-          placeholder='Last Name'
+          placeholder='age  '
           value={age}
           onChange={(e) => setAge(e.target.value)}
         />

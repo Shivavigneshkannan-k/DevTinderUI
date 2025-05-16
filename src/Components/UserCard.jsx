@@ -19,9 +19,9 @@ const UserCard = ({ user, userId }) => {
     }
   };
   return (
-    <div className='h-dvh'>
+    <div className=''>
       <div className='card bg-base-300 w-96 shadow-sm '>
-        <figure className="">
+        <figure className="h-80">
           <img
             src={user.photoPath || DEFAULT_PHOTO}
             alt='user photo'
