@@ -27,8 +27,17 @@ to do
     - sudo systemctl enable nginx
     - copy code from dist(build file) to /var/www/html
         - sudo scp -r dist/*  /var/www/html
-        - Enable port :80 of your instanse
+        - Enable port :80 of your instance
             - go to security group expose port 80
+
+## Backend Deployemnt
+    - allow ec2 instance public ip to access mongoDB cluster
+    - npm install pm2 -g (to run server 24/7)
+    - pm2 start npm --name "DevTinder-backend" -- start
+    - pm2 logs
+    - pm2 list, pm2 flush <name>, pm2 stop <name>, pm2 delete <name>
+    - Enable port of backend server :5000 of your instance 
+    
 
  Linux Commands Summary for Frontend Deployment on AWS EC2
 🔐 sudo — Superuser Do
