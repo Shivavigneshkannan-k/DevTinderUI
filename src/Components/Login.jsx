@@ -41,8 +41,8 @@ const Login = () => {
       dispatch(addUserData(data));
       navigate("/feed");
     } catch (err) {
-      setError(err.response.data.message);
-      console.log(err.response.data.message);
+      console.log(err.message);
+      setError(err.message)
     }
   };
   const signUp = async () => {
@@ -62,6 +62,7 @@ const Login = () => {
       dispatch(addUserData(data));
       navigate("/feed");
     } catch (err) {
+
       setError(err.response.data.message);
       console.log(err.response.data.message);
     }
