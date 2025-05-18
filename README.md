@@ -169,3 +169,71 @@ Edit
 sudo rm -rf /var/www/html/_  
 sudo cp -r dist/_ /var/www/html/
 Visit: http://<your-ec2-ip> to see your site live.
+
+
+Revision Notes: Nginx Proxy, PM2, and Backend Deployment
+1. Nginx Proxy Pass Setup
+Nginx config files are usually in /etc/nginx/sites-available/ with active sites linked in /etc/nginx/sites-enabled/.
+
+/etc is a Linux system folder holding configuration files for services like Nginx.
+
+To proxy requests from /api to a backend server running on localhost:5000, add a server block in /etc/nginx/sites-available/default:
+
+nginx
+Copy
+Edit
+location /api/ {
+    proxy_pass http://localhost:5000/;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+}
+Restart Nginx with sudo systemctl restart nginx.
+
+The headers preserve original client info, important for logging, security, and backend logic. Though not mandatory, they are best practice.
+
+2. What is /etc/nginx/sites-available/default?
+It's a configuration file inside /etc/nginx/sites-available/.
+
+This folder stores all site configs; sites-enabled contains symlinks to active configs.
+
+Editing this file allows you to set up reverse proxy, routing, SSL, etc.
+
+You need sudo to edit /etc files due to system permissions.
+
+3. How PM2 Works to Run Server 24/7
+PM2 is a Node.js process manager that keeps your server running continuously.
+
+It spawns and monitors your Node.js app as a background daemon.
+
+If the app crashes, PM2 restarts it automatically.
+
+It manages logs, process names, and can start processes on system reboot.
+
+4. Explanation of the Command:
+bash
+Copy
+Edit
+pm2 start npm --name "DevTinder-backend" -- start
+pm2 start: Start a new managed process.
+
+npm: Command to run (npm CLI).
+
+--name "DevTinder-backend": Custom process name for easier management.
+
+--: Separator to pass arguments to npm.
+
+start: Argument passed to npm (npm start runs your app).
+
+5. Headers in Nginx Proxy: Necessity
+proxy_set_header Host $host; preserves original domain info.
+
+proxy_set_header X-Real-IP $remote_addr; sends client’s real IP.
+
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; keeps proxy chain of IPs.
+
+proxy_set_header X-Forwarded-Proto $scheme; sends original protocol (http/https).
+
+Highly recommended to keep backend aware of client info and for proper logging/security.
